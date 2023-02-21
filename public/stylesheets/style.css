@@ -6,3 +6,30 @@ body {
 a {
   color: #00B7FF;
 }
+
+.page-header {
+  display: flex;
+  justify-content: center;
+}
+
+.homepage-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form input {
+  margin: 0.5rem;
+}
+
+.formButtons {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+  gap: 1rem;
+}

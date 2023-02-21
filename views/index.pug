@@ -1,12 +1,14 @@
 extends layout
 
 block content
-  h1= title
-
-  p Have an account?
-    a(href='/login') 
-      button Login 
+  div(class='page-header')
+    h1= title
   
-  p New member?
-    a(href='/sign-up') 
-      button Sign Up
+  div(class='homepage-container')
+    p Have an account?
+      a(href='/login') 
+        button Login 
+    
+    p New member?
+      a(href='/sign-up') 
+        button Sign Up

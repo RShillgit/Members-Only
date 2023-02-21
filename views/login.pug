@@ -1,10 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  
-  a(href='/')
-    button Cancel 
-  
-  a(action='POST' href='')
-    button Login
+  div(class='page-header')
+    h1= title
+
+  form(method='POST' action='' id='login-form')
+    label Username 
+      input(type='text')
+    labl Password 
+      input(type="password")
+
+  div(class='formButtons')
+    a(href='/')
+      button Cancel 
+    
+    button(type='submit' form='login-form') Login
