@@ -6,12 +6,15 @@ block content
 
   form(method='POST' action='' id='login-form')
     label Username 
-      input(type='text')
+      input(type='text' name='username' required='true')
     labl Password 
-      input(type="password")
+      input(type="password" name='password' required='true')
 
   div(class='formButtons')
     a(href='/')
       button Cancel 
     
     button(type='submit' form='login-form') Login
+  
+  if err  
+    p=err 

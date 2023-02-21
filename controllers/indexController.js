@@ -13,13 +13,64 @@ exports.loginGET = (req, res) => {
 }
 
 // Login POST
-exports.loginPOST = (req, res) => {
-    res.redirect('/');
+exports.loginPOST = [
+
+    // Validate and sanitize fields.
+    body("username", "Username must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+    body("password", "Password must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+    // Process request after validation and sanitization
+    (req, res, next) => {
+
+        // Extract validation errors
+        const errors = validationResult(req);
+
+        // There are errors. Render form again.
+        if (!errors.isEmpty()) {
+            res.render('login', {
+                err: errors,
+            })
+        } 
+
+        // No errors
+        else {
+            // Check database for username and password
+            users.findOne({username: req.body.username})
+                .exec((err, result) => {
+                    if (err) return next(err);
+
+                    // Compare inputted password to the stored hashed password
+                    bcrypt.compare(req.body.password, result.password, function(err, result) {
+
+                        // If the password matches, log the user in
+                        if (result) {
+                            // TODO
+                            res.send('Correct... now login')
+                        }
+
+                        // If the password doesnt match rerender form with error message
+                        else {
+                            console.log(err)
+                            res.render('login', {
+                                err: 'This username/password combination is incorrect',
+                            })
+                        }
+                    });
+                })
+        }
+
+    }
     
     // Validate users credentials
 
     // Render a home page only logged in users can access 
-}
+]
 
 // Sign up GET
 exports.signupGET = (req, res) => {
@@ -60,13 +111,16 @@ exports.signupPOST = [
         // There are errors. Render form again.
         if (!errors.isEmpty()) {
             res.render('sign-up', {
-                err: err,
+                err: errors,
             })
         } 
         
-        // No errors, check if passwords match
+        // No errors, check if this username already exists
         else {
 
+            // Check if username already exists
+
+            // If it doesn't, check to see if the passwords match
             if (req.body.password === req.body.password_confirmation) {
 
                 // Create hash
