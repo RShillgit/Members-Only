@@ -9,7 +9,6 @@ const UserSchema = new Schema({
     password: {type: String, required: true},
     membership_status: {type: Boolean, required: true},
     messages: [{ type: Schema.Types.ObjectId, ref: "Messages" }]
-
 })
 
 // Export model

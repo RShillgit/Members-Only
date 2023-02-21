@@ -6,15 +6,15 @@ block content
 
   form(method='POST' action='' id='sign-up-form')
     label Username 
-      input(type='text')
+      input(type='text' name='username' required='true')
     label First Name 
-      input(type="text")
+      input(type="text" name='first_name' required='true')
     label Last Name 
-      input(type="text")
+      input(type="text" name='last_name' required='true')
     labl Password 
-      input(type="password")
+      input(type="password" name='password' required='true')
     label Confirm Password 
-      input(type="password")
+      input(type="password" name='password_confirmation' required='true')
 
   div(class='formButtons')
     a(href='/')
