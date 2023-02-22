@@ -50,7 +50,7 @@ exports.loginPOST = [
 
                         // If the password matches, log the user in
                         if (result) {
-                            // TODO Render a home page only logged in users can access 
+                            // Render a home page only logged in users can access 
                             res.render('authedIndex', {
                                 title: 'Logged in Home Page',
                             })
@@ -122,39 +122,41 @@ exports.signupPOST = [
                     
                     // If username already exists
                     if (result) {
-                        // TODO Cannot set headers error
-                        // errors.errors.push({msg: 'Username already exists'});
-                        res.redirect('/sign-up');
+                        res.render('sign-up', {
+                            err: [{msg: 'Username already exists'}],
+                        });
+                    }
+
+                     // If it doesn't, check to see if the passwords match
+                    else if (req.body.password === req.body.password_confirmation) {
+
+                        // Create hash
+                        bcrypt.hash(req.body.password, 10, function(err, hash) {
+
+                            if(err) {
+                                return next(err);
+                            }
+
+                            // Create user with hashed password
+                            const newUser = new users({
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name,
+                                username: req.body.username,
+                                password: hash,
+                                membership_status: false,
+                            })
+                            newUser.save((err, result) => {
+                                if (err) {
+                                    return next(err);
+                                }
+
+                                // Successful, redirect to Login page 
+                                // TODO: Success message?
+                                return res.redirect('/login'); 
+                            })
+                        });
                     }
                 })
-
-            // If it doesn't, check to see if the passwords match
-            if (req.body.password === req.body.password_confirmation) {
-
-                // Create hash
-                bcrypt.hash(req.body.password, 10, function(err, hash) {
-
-                    if(err) {
-                        return next(err);
-                    }
-
-                    // Create user with hashed password
-                    const newUser = new users({
-                        first_name: req.body.first_name,
-                        last_name: req.body.last_name,
-                        username: req.body.username,
-                        password: hash,
-                        membership_status: false,
-                    })
-                    newUser.save((err, result) => {
-                        if (err) {
-                            return next(err);
-                        }
-                        // Successful
-                        res.redirect('/'); // change this to a logged in page
-                    })
-                });
-            }
         }   
     }
 ]

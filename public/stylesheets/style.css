@@ -42,3 +42,9 @@ form input {
   color: red;
   font-weight: 600;
 }
+.success-message-div {
+  display: flex;
+  justify-content: center;
+  color: green;
+  font-weight: 600;
+}
