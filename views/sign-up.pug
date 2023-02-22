@@ -22,5 +22,8 @@ block content
     
     button(type='submit' form='sign-up-form') Sign Up
   
-  if err  
-    p=err
+  if err
+    div(class='error-message-div')
+      ul
+        each e in err 
+          li=e.msg  

@@ -1,4 +1,4 @@
-const { body, validationResult } = require("express-validator");
+const { body, validationResult, check } = require("express-validator");
 // Password Security
 const bcrypt = require('bcrypt');
 
@@ -50,8 +50,10 @@ exports.loginPOST = [
 
                         // If the password matches, log the user in
                         if (result) {
-                            // TODO
-                            res.send('Correct... now login')
+                            // TODO Render a home page only logged in users can access 
+                            res.render('authedIndex', {
+                                title: 'Logged in Home Page',
+                            })
                         }
 
                         // If the password doesnt match rerender form with error message
@@ -64,12 +66,7 @@ exports.loginPOST = [
                     });
                 })
         }
-
     }
-    
-    // Validate users credentials
-
-    // Render a home page only logged in users can access 
 ]
 
 // Sign up GET
@@ -93,14 +90,14 @@ exports.signupPOST = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-    body("password", "Password must not be empty.")
-    .trim()
+    check("password")
+    .exists()
     .isLength({ min: 1 })
     .escape(),
-    body("password_confirmation", "Enter the same password to confirm.")
-    .trim()
+    check("password_confirmation", "Passwords must match")
+    .exists()
     .isLength({ min: 1 })
-    .escape(),
+    .custom((value, { req }) => value === req.body.password),
 
     // Process request after validation and sanitization
     (req, res, next) => {
@@ -111,7 +108,7 @@ exports.signupPOST = [
         // There are errors. Render form again.
         if (!errors.isEmpty()) {
             res.render('sign-up', {
-                err: errors,
+                err: errors.errors,
             })
         } 
         
@@ -119,6 +116,17 @@ exports.signupPOST = [
         else {
 
             // Check if username already exists
+            users.findOne({ username: req.body.username })
+                .exec((err, result) => {
+                    if (err) return next(err);
+                    
+                    // If username already exists
+                    if (result) {
+                        // TODO Cannot set headers error
+                        // errors.errors.push({msg: 'Username already exists'});
+                        res.redirect('/sign-up');
+                    }
+                })
 
             // If it doesn't, check to see if the passwords match
             if (req.body.password === req.body.password_confirmation) {

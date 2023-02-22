@@ -16,5 +16,8 @@ block content
     
     button(type='submit' form='login-form') Login
   
-  if err  
-    p=err 
+  if err
+    div(class='error-message-div')
+      ul
+        each e in err 
+          li=e.msg  

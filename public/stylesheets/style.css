@@ -33,3 +33,12 @@ form input {
   margin: 1rem;
   gap: 1rem;
 }
+
+.error-message-div {
+  display: flex;
+  justify-content: center;
+}
+.error-message-div ul {
+  color: red;
+  font-weight: 600;
+}
