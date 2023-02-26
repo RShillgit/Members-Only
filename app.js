@@ -1,5 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
+
+// Sessions
+const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
+
+const mongoose = require("mongoose");
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -12,7 +19,6 @@ const messageRouter = require('./routes/message');
 var app = express();
 
 // Set up mongoose connection
-const mongoose = require("mongoose");
 mongoose.set('strictQuery', false); 
 const mongoDBURL = process.env.db_url;
 
@@ -30,6 +36,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ // Session middleware
+  // Set session ID to unique id
+  genid: function (req) {
+    return uuidv4();
+    },
+    secret: process.env.secretString,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 Day
+})); 
 
 app.use('/', indexRouter);
 app.use('/message', messageRouter);

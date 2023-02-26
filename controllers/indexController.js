@@ -1,4 +1,5 @@
 const { body, validationResult, check } = require("express-validator");
+
 // Password Security
 const bcrypt = require('bcrypt');
 
@@ -9,6 +10,7 @@ const async = require('async');
 
 // Login GET
 exports.loginGET = (req, res) => {
+    console.log(`session ID - ${req.sessionID}`)
     res.render('login', { title: 'Login'});
 }
 
@@ -38,6 +40,7 @@ exports.loginPOST = [
             })
         } 
 
+        // TODO Passport.js
         // No errors
         else {
             // Check database for username and password
