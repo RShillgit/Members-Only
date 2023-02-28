@@ -24,9 +24,10 @@ function validatePassword(password, hash, salt) {
     // CRYPTO
     //var hashVerify = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
     
-    var hashVerify = bcrypt.hash(password, salt);
-    
-    return hashVerify;
+    var hashVerify = bcrypt.hashSync(password, salt);
+
+    if (hashVerify === hash) return true;
+    else return false;
 }
 
 module.exports.validatePassword = validatePassword;

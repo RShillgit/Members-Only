@@ -33,7 +33,7 @@ router.get('/club', (req, res, next) => {
   if (req.isAuthenticated()) {
     res.render('club');
   } else {
-    res.redirect('/login')
+    res.redirect('/')
   }
 });
 
@@ -45,7 +45,7 @@ router.get('/admin', (req, res, next) => {
   if (req.isAuthenticated()) {
     res.render('admin');
   } else {
-    res.redirect('/login')
+    res.redirect('/')
   }
 });
 

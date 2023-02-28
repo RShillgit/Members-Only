@@ -1,14 +1,5 @@
 var createError = require('http-errors');
 var express = require('express');
-
-// Session
-const session = require('express-session');
-const { v4: uuidv4 } = require('uuid');
-
-const MongoStore = require('connect-mongo'); // NEW
-
-const passport = require('passport');  // authentication
-
 const mongoose = require("mongoose");
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -24,11 +15,11 @@ var app = express();
 mongoose.set('strictQuery', false); 
 const mongoDBURL = process.env.db_url;
 
-const mongoDBOptions = { // NEW
+const mongoDBOptions = { 
   useNewUrlParser: true,
   useUnifiedTopology: true
 } 
-const connection = mongoose.createConnection(mongoDBURL, mongoDBOptions); // NEW
+const connection = mongoose.createConnection(mongoDBURL, mongoDBOptions); 
 
 main().catch(err => console.log(err));
 async function main() {
@@ -45,14 +36,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const sessionStore = MongoStore.create({ // NEW
+/**
+ * ----------------- SESSION -----------------
+ */
+const MongoStore = require('connect-mongo'); 
+const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
+
+const sessionStore = MongoStore.create({ 
   mongoUrl: mongoDBURL,
   mongoOptions: mongoDBOptions,
   client: connection, // TODO - Might not be necessary
   collectionName: 'sessions' // TODO - Might not be necessary
 })
 
-// Session middleware
 app.use(session({ 
   // Set session ID to unique id
   genid: function (req) {
@@ -61,24 +58,21 @@ app.use(session({
     secret: process.env.secretString,
     resave: false,
     saveUninitialized: true,
-    store: sessionStore, // NEW
+    store: sessionStore, 
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 Day
 })); 
-
 
 /**
  * ----------------- PASSPORT AUTHENTICATION -----------------
  */
+const passport = require('passport'); 
 require('./config/passport');
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use((req, res, next) => {
-  console.log(req.session);
-  console.log(req.user);
-  next();
-})
+/**
+ * -----------------------------------------------------------
+ */
 
 app.use('/', indexRouter);
 app.use('/message', messageRouter);

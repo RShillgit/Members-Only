@@ -4,13 +4,15 @@ const validatePassword = require('../utils/passwordUtils').validatePassword;
 const connection = require('../models/users');
 const User = connection.models.User;
 
-// const User = require('../models/users');
-
 const verifyCallback = (username, password, done) => {
 
     User.findOne({ username: username }, (err, user) => {
+     
         if (err) { 
-          return done(err);
+            return done(err);
+        }
+        if (user === null) {
+            return done(null);
         }
 
         const isValid = validatePassword(password, user.hash, user.salt);
@@ -20,9 +22,7 @@ const verifyCallback = (username, password, done) => {
         } else {
             return done(null, false);
         }
-
-      });
-
+    });
 }
 
 const strategy = new LocalStrategy(verifyCallback);
