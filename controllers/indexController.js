@@ -176,19 +176,9 @@ exports.signupPOST = [
     }
 ]
 
-// Club GET
-exports.clubGET = (req, res) => {
-    res.render('club');
-}
-
 // Club POST
 exports.clubPOST = (req, res) => {
     res.send('Joining secret club...');
-}
-
-// Admin GET
-exports.adminGET = (req, res) => {
-    res.render('admin');
 }
 
 // Admin POST

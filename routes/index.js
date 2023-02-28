@@ -29,15 +29,35 @@ router.get('/home', function(req, res) {
 })
 
 /* GET club page */
-router.get('/club', indexController.clubGET);
+router.get('/club', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.render('club');
+  } else {
+    res.redirect('/login')
+  }
+});
 
 /* POST club page */
 router.post('/club', indexController.clubPOST);
 
 /* GET admin page */
-router.get('/admin', indexController.adminGET);
+router.get('/admin', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.render('admin');
+  } else {
+    res.redirect('/login')
+  }
+});
 
 /* POST admin page */
 router.post('/admin', indexController.adminPOST);
+
+/* GET logout */
+router.get('/logout', (req, res, next) => {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+})
 
 module.exports = router;
