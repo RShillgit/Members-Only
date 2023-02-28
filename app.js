@@ -1,16 +1,18 @@
 var createError = require('http-errors');
 var express = require('express');
 
-// Sessions
+// Session
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 
-const mongoose = require("mongoose");
+const MongoStore = require('connect-mongo'); // NEW
 
+const passport = require('passport');  // authentication
+
+const mongoose = require("mongoose");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 require('dotenv').config()
 
 var indexRouter = require('./routes/index');
@@ -21,6 +23,12 @@ var app = express();
 // Set up mongoose connection
 mongoose.set('strictQuery', false); 
 const mongoDBURL = process.env.db_url;
+
+const mongoDBOptions = { // NEW
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+} 
+const connection = mongoose.createConnection(mongoDBURL, mongoDBOptions); // NEW
 
 main().catch(err => console.log(err));
 async function main() {
@@ -37,7 +45,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ // Session middleware
+const sessionStore = MongoStore.create({ // NEW
+  mongoUrl: mongoDBURL,
+  mongoOptions: mongoDBOptions,
+  client: connection, // TODO - Might not be necessary
+  collectionName: 'sessions' // TODO - Might not be necessary
+})
+
+// Session middleware
+app.use(session({ 
   // Set session ID to unique id
   genid: function (req) {
     return uuidv4();
@@ -45,8 +61,18 @@ app.use(session({ // Session middleware
     secret: process.env.secretString,
     resave: false,
     saveUninitialized: true,
+    store: sessionStore, // NEW
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 Day
 })); 
+
+
+/**
+ * ----------------- PASSPORT AUTHENTICATION -----------------
+ */
+require('./config/passport');
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/message', messageRouter);

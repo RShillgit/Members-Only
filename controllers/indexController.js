@@ -1,4 +1,6 @@
 const { body, validationResult, check } = require("express-validator");
+const genPassword = require('../utils/passwordUtils').genPassword;
+const validatePassword = require('../utils/passwordUtils').validatePassword;
 
 // Password Security
 const bcrypt = require('bcrypt');
@@ -10,11 +12,10 @@ const async = require('async');
 
 // Login GET
 exports.loginGET = (req, res) => {
-    console.log(`session ID - ${req.sessionID}`)
     res.render('login', { title: 'Login'});
 }
 
-// Login POST
+// Login POST -> Can be deleted
 exports.loginPOST = [
 
     // Validate and sanitize fields.
@@ -43,30 +44,43 @@ exports.loginPOST = [
         // TODO Passport.js
         // No errors
         else {
+            
             // Check database for username and password
             users.findOne({username: req.body.username})
                 .exec((err, result) => {
                     if (err) return next(err);
 
-                    // Compare inputted password to the stored hashed password
-                    bcrypt.compare(req.body.password, result.password, function(err, result) {
+                    // If the username DOESN'T exist render login form with error message
+                    if (!result) {
+                        res.render('login', {
+                            err: [{msg: 'An account with this username does not exist'}],
+                        })
+                    }
+                    
+                    // If the username DOES exists
+                    else {
 
-                        // If the password matches, log the user in
-                        if (result) {
-                            // Render a home page only logged in users can access 
-                            res.render('authedIndex', {
-                                title: 'Logged in Home Page',
-                            })
-                        }
+                        // Compare inputted password to the stored hashed password
+                        bcrypt.compare(req.body.password, result.hash, function(err, result) {
 
-                        // If the password doesnt match rerender form with error message
-                        else {
-                            console.log(err)
-                            res.render('login', {
-                                err: 'This username/password combination is incorrect',
-                            })
-                        }
-                    });
+                            // If the password matches, log the user in
+                            if (result) {
+
+                                // Render logged in home page
+                                res.redirect('/home');
+                            }
+
+                            // If the password doesnt match rerender form with error message
+                            else {
+                                res.render('login', {
+                                    err: [{msg: 'This username/password combination is incorrect'}],
+                                })
+                                
+                            }
+                        });
+                    }
+
+
                 })
         }
     }
@@ -133,31 +147,29 @@ exports.signupPOST = [
                      // If it doesn't, check to see if the passwords match
                     else if (req.body.password === req.body.password_confirmation) {
 
-                        // Create hash
-                        bcrypt.hash(req.body.password, 10, function(err, hash) {
+                        // Hash and salt from util function
+                        const saltHash = genPassword(req.body.password);
 
-                            if(err) {
+                        const salt = saltHash.salt;
+                        const hash = saltHash.hash;
+
+                        // Create user with salt and hash
+                        const newUser = new users({
+                            first_name: req.body.first_name,
+                            last_name: req.body.last_name,
+                            username: req.body.username,
+                            hash: hash,
+                            salt: salt,
+                            membership_status: false,
+                        })
+                        newUser.save((err, result) => {
+                            if (err) {
                                 return next(err);
                             }
 
-                            // Create user with hashed password
-                            const newUser = new users({
-                                first_name: req.body.first_name,
-                                last_name: req.body.last_name,
-                                username: req.body.username,
-                                password: hash,
-                                membership_status: false,
-                            })
-                            newUser.save((err, result) => {
-                                if (err) {
-                                    return next(err);
-                                }
-
-                                // Successful, redirect to Login page 
-                                // TODO: Success message?
-                                return res.redirect('/login'); 
-                            })
-                        });
+                            // Successful, redirect to Login page 
+                            return res.redirect('/login'); 
+                        })
                     }
                 })
         }   

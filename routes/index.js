@@ -1,4 +1,5 @@
 var express = require('express');
+const passport = require('passport');
 var router = express.Router();
 
 const indexController = require('../controllers/indexController');
@@ -12,13 +13,20 @@ router.get('/', function(req, res, next) {
 router.get('/login', indexController.loginGET);
 
 /* POST login page */
-router.post('/login', indexController.loginPOST);
+router.post('/login', passport.authenticate('local', {failureRedirect: '/login', successRedirect: '/home'}));
 
 /* GET sign-up page. */
 router.get('/sign-up', indexController.signupGET);
 
 /* POST sign-up page */
 router.post('/sign-up', indexController.signupPOST);
+
+/* GET logged in home page */
+router.get('/home', function(req, res) {
+  res.render('authedIndex', {
+    title: 'Logged in Home Page',
+  })
+})
 
 /* GET club page */
 router.get('/club', indexController.clubGET);
