@@ -4,15 +4,13 @@ block content
     div(class='page-header')
         h1= title
 
-    p Can only access this page if you are logged in.  If not authenticated, redirect to /login
-
     p Here will show all the messages with author and date.
 
     a(href='/club')
         button Join Secret Club 
     a(href='/admin')
         button Become Admin
-    a(href='/messages/create')
+    a(href='/message/create')
         button Create Message
 
     a(href='/logout') Logout

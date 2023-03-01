@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    div(class='page-header')
+        h1= title
+
+
+    form(method='POST' action='' id='create-message-form')
+        label Message
+        textarea(name="text", cols="50", rows="8" required='true')
+    
+    div(class='formButtons')
+        a(href='/home')
+            button Cancel 
+        
+        button(type='submit' form='create-message-form') Create message

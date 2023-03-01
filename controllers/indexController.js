@@ -5,7 +5,9 @@ const validatePassword = require('../utils/passwordUtils').validatePassword;
 // Password Security
 const bcrypt = require('bcrypt');
 
-const users = require('../models/users');
+const connection = require('../models/users');
+const users = connection.models.User;
+
 const messages = require('../models/messages');
 
 const async = require('async');
@@ -133,6 +135,7 @@ exports.signupPOST = [
         else {
 
             // Check if username already exists
+            
             users.findOne({ username: req.body.username })
                 .exec((err, result) => {
                     if (err) return next(err);

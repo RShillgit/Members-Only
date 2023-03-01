@@ -23,7 +23,5 @@ const connection = mongoose.createConnection(mongoDBURL, mongoDBOptions);
 
 const User = connection.model('User', UserSchema);
 
-module.exports = mongoose.model("User", UserSchema);
-
 // Expose connection
 module.exports = connection;

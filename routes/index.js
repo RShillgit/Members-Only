@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/login', indexController.loginGET);
 
 /* POST login page */
+// TODO Error messages
 router.post('/login', passport.authenticate('local', {failureRedirect: '/login', successRedirect: '/home'}));
 
 /* GET sign-up page. */
@@ -23,9 +24,13 @@ router.post('/sign-up', indexController.signupPOST);
 
 /* GET logged in home page */
 router.get('/home', function(req, res) {
-  res.render('authedIndex', {
-    title: 'Logged in Home Page',
-  })
+  if (req.isAuthenticated()) {
+    res.render('authedIndex', {
+      title: 'Logged in Home Page',
+    })
+  } else {
+    res.redirect('/')
+  }
 })
 
 /* GET club page */

@@ -3,7 +3,16 @@ const { body, validationResult, check } = require("express-validator");
 // Password Security
 const bcrypt = require('bcrypt');
 
-const users = require('../models/users');
+const connection = require('../models/users');
+const users = connection.models.User;
+
 const messages = require('../models/messages');
 
 const async = require('async');
+
+exports.createPOST = (req, res) => {
+    res.send('create post')
+
+    // Create new message with text
+    const userID = req.session.passport.user;
+}
