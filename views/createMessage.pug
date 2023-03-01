@@ -6,8 +6,10 @@ block content
 
 
     form(method='POST' action='' id='create-message-form')
+        label Title 
+            input(type='text' name='title' required='true')
         label Message
-        textarea(name="text", cols="50", rows="8" required='true')
+            textarea(name="text", cols="50", rows="8" required='true')
     
     div(class='formButtons')
         a(href='/home')

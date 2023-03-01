@@ -15,4 +15,14 @@ exports.createPOST = (req, res) => {
 
     // Create new message with text
     const userID = req.session.passport.user;
+
+    const timestamp = new Date().getTime();
+    console.log(timestamp)
+
+    const newMessage = new messages({
+        author: userID,
+        title: req.body.title,
+        text: req.body.text,
+        // TODO timestamp: ...
+    })
 }
