@@ -3,10 +3,6 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
-}
-
 .page-header {
   display: flex;
   justify-content: center;
@@ -47,4 +43,25 @@ form input {
   justify-content: center;
   color: green;
   font-weight: 600;
+}
+
+/* Navigation */
+.nav {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* Logged in Home Page */
+.messagesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid red;
+}
+.individualMessage {
+  margin: 1rem;
+  border: 1px solid blue;
+  border-radius: 1rem;
+  padding: 1rem;
 }

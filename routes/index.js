@@ -3,6 +3,7 @@ const passport = require('passport');
 var router = express.Router();
 
 const indexController = require('../controllers/indexController');
+const messageController = require('../controllers/messageController');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -23,15 +24,7 @@ router.get('/sign-up', indexController.signupGET);
 router.post('/sign-up', indexController.signupPOST);
 
 /* GET logged in home page */
-router.get('/home', function(req, res) {
-  if (req.isAuthenticated()) {
-    res.render('authedIndex', {
-      title: 'Logged in Home Page',
-    })
-  } else {
-    res.redirect('/')
-  }
-})
+router.get('/home', messageController.homeGET);
 
 /* GET club page */
 router.get('/club', (req, res, next) => {

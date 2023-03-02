@@ -10,6 +10,28 @@ const messages = require('../models/messages');
 
 const async = require('async');
 
+exports.homeGET = (req, res) => {
+
+    // If the user is logged in...
+    if (req.isAuthenticated()) {
+
+        // Get all messages
+        messages.find({})
+        .exec((err, results) => {
+            if (err) return next(err);
+
+            // Render home page with messages
+            res.render('authedIndex', {
+                title: 'Logged in Home Page',
+                messages: results
+            })
+        })
+    
+    } else {
+        res.redirect('/');
+    }
+}
+
 exports.createPOST = (req, res) => {
 
     // Create new message with text
