@@ -11,18 +11,21 @@ const messages = require('../models/messages');
 const async = require('async');
 
 exports.createPOST = (req, res) => {
-    res.send('create post')
 
     // Create new message with text
     const userID = req.session.passport.user;
-
-    const timestamp = new Date().getTime();
-    console.log(timestamp)
 
     const newMessage = new messages({
         author: userID,
         title: req.body.title,
         text: req.body.text,
-        // TODO timestamp: ...
+        timestamp: new Date()
+    })
+    newMessage.save((err, result) => {
+        if (err) {
+            return next(err);
+        }
+        // Successful, redirect to home page
+        return res.redirect('/home');
     })
 }
