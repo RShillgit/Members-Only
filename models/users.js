@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     hash: {type: String},
     salt: {type: String},
     membership_status: {type: Boolean, required: true},
-    messages: [{ type: Schema.Types.ObjectId, ref: "Messages" }]
+    messages: [{ type: Schema.Types.ObjectId, ref: "Message" }]
 })
 
 const mongoDBURL = process.env.db_url;

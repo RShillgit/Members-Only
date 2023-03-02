@@ -15,15 +15,35 @@ exports.homeGET = (req, res) => {
     // If the user is logged in...
     if (req.isAuthenticated()) {
 
+        
+        /* Find all the users and messages, so that we can get the author name
+
+        async.parallel([
+            messages.find({}).exec((err, results) => {
+                if (err) return next(err);
+            }),
+            users.find({}).exec((err, results) => {
+                console.log(results);
+                if (err) return next(err);
+            })
+        ], (err, results) => {
+            console.log(results)
+        })
+        */
+     
         // Get all messages
         messages.find({})
         .exec((err, results) => {
             if (err) return next(err);
 
+            // TODO: Format the date, which might have to be done in the messages model
+            results.testDate = '03/2/2023' 
+
             // Render home page with messages
             res.render('authedIndex', {
                 title: 'Logged in Home Page',
-                messages: results
+                messages: results,
+                testDate: results.testDate
             })
         })
     
@@ -34,20 +54,34 @@ exports.homeGET = (req, res) => {
 
 exports.createPOST = (req, res) => {
 
-    // Create new message with text
     const userID = req.session.passport.user;
 
+    // Create new message
     const newMessage = new messages({
         author: userID,
         title: req.body.title,
         text: req.body.text,
         timestamp: new Date()
     })
-    newMessage.save((err, result) => {
-        if (err) {
-            return next(err);
-        }
-        // Successful, redirect to home page
-        return res.redirect('/home');
+
+    // Get the author of the message
+    users.findOne({'_id': userID}).exec((err, result) => {
+        if (err) return next(err);
+        
+        // Add message to their messages array
+        result.messages.push(newMessage);
+        result.save();
+        
+        console.log(result)
+
+        // Save message 
+        newMessage.save((err, result) => {
+            if (err) {
+                return next(err);
+            }
+
+            // Successful, redirect to home page
+            return res.redirect('/home');
+        })
     })
 }
