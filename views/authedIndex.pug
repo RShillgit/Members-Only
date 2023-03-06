@@ -18,7 +18,7 @@ block content
     div(class='messagesContainer')
         each message in messages   
             div(class='individualMessage')
-                p=message.author
+                p= message.authorName(authors, message)
                 p=message.title
                 p=message.text
                 p= message.formatDate(message.timestamp)

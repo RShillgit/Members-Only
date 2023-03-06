@@ -14,23 +14,37 @@ exports.homeGET = (req, res) => {
 
     // If the user is logged in...
     if (req.isAuthenticated()) {
+        // TODO: Find all the users and messages, so that we can get the author name
 
-        
-        /* TODO: Find all the users and messages, so that we can get the author name
+        // Get all users and messages
+        async.parallel(
+            {
+                allMessages(callback) {
+                    messages.find({})
+                        //.populate('author')
+                        .exec(callback)
+                },
+                allUsers(callback) {
+                    // Users that have messages associated with them
+                    users.find({messages: {$exists: true, $type: 4, $ne: [] } })
+                        .exec(callback)
+                }
+            },
+            (err, results) => {
+                if(err) {
+                    console.log(err)
+                    return err
+                }
 
-        async.parallel([
-            messages.find({}).exec((err, results) => {
-                if (err) return next(err);
-            }),
-            users.find({}).exec((err, results) => {
-                console.log(results);
-                if (err) return next(err);
+                // Render home page with messages
+                res.render('authedIndex', {
+                    title: 'Logged in Home Page',
+                    authors: results.allUsers,
+                    messages: results.allMessages,
+                })
             })
-        ], (err, results) => {
-            console.log(results)
-        })
-        */
-     
+
+        /*
         // Get all messages
         messages.find({})
         .exec((err, results) => {
@@ -42,6 +56,7 @@ exports.homeGET = (req, res) => {
                 messages: results,
             })
         })
+        */
     
     } else {
         res.redirect('/');
