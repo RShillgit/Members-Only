@@ -9,5 +9,29 @@ const MessageSchema = new Schema({
     timestamp: { type: Date, required: true }
 })
 
+MessageSchema.methods.formatDate = (timestamp) => {
+
+    // Day
+    let day = timestamp.getDate();
+
+    // Month
+    let month = timestamp.getMonth() + 1;
+
+    // Year
+    let year = timestamp.getFullYear();
+
+    // 2 digit months and days
+    if (day < 10) {
+        day = '0' + day;
+    }
+    if (month < 10) {
+        month = `0${month}`;
+    }
+
+    let formattedDate = `${month}/${day}/${year}`;
+
+    return formattedDate;
+}
+
 // Export model
 module.exports = mongoose.model("Message", MessageSchema)

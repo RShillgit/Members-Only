@@ -16,7 +16,7 @@ exports.homeGET = (req, res) => {
     if (req.isAuthenticated()) {
 
         
-        /* Find all the users and messages, so that we can get the author name
+        /* TODO: Find all the users and messages, so that we can get the author name
 
         async.parallel([
             messages.find({}).exec((err, results) => {
@@ -36,14 +36,10 @@ exports.homeGET = (req, res) => {
         .exec((err, results) => {
             if (err) return next(err);
 
-            // TODO: Format the date, which might have to be done in the messages model
-            results.testDate = '03/2/2023' 
-
             // Render home page with messages
             res.render('authedIndex', {
                 title: 'Logged in Home Page',
                 messages: results,
-                testDate: results.testDate
             })
         })
     
@@ -71,17 +67,15 @@ exports.createPOST = (req, res) => {
         // Add message to their messages array
         result.messages.push(newMessage);
         result.save();
-        
-        console.log(result)
+    })
 
-        // Save message 
-        newMessage.save((err, result) => {
-            if (err) {
-                return next(err);
-            }
+    // Save message 
+    newMessage.save((err, result) => {
+        if (err) {
+            return next(err);
+        }
 
-            // Successful, redirect to home page
-            return res.redirect('/home');
-        })
+        // Successful, redirect to home page
+        return res.redirect('/home');
     })
 }

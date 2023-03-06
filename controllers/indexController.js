@@ -42,8 +42,7 @@ exports.loginPOST = [
                 err: errors,
             })
         } 
-
-        // TODO Passport.js
+        
         // No errors
         else {
             
