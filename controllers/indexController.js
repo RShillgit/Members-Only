@@ -6,8 +6,9 @@ const validatePassword = require('../utils/passwordUtils').validatePassword;
 const bcrypt = require('bcrypt');
 
 const users = require('../models/users'); 
-
 const messages = require('../models/messages');
+const secret = require('../models/secret');
+const admin = require('../models/admin');
 
 // Login GET
 exports.loginGET = (req, res) => {
@@ -176,11 +177,102 @@ exports.signupPOST = [
 ]
 
 // Club POST
-exports.clubPOST = (req, res) => {
-    res.send('Joining secret club...');
-}
+exports.clubPOST = [
+
+            // Validate and sanitize password.
+            body("password", "Password must not be empty.")
+            .trim()
+            .isLength({ min: 1 })
+            .escape(),
+        
+            // Process request after validation and sanitization
+            (req, res, next) => {
+        
+                // Extract validation errors
+                const errors = validationResult(req);
+        
+                // There are errors. Render form again.
+                if (!errors.isEmpty()) {
+                    res.render('login', {
+                        err: errors,
+                    })
+                } 
+                
+                // No errors
+                else {
+                    
+                    // Check database for password
+                    secret.find({})
+                        .exec((err, result) => {
+                            if (err) return next(err);
+                            
+                            // Compare inputted password to the stored hashed password
+                            bcrypt.compare(req.body.password, result.hash, function(err, result) {
+    
+                                // If the password matches, join secret club
+                                if (result) {
+                                    // TODO - Authorize them to join secret club
+                                }
+    
+                                // If the password doesnt match rerender form with error message
+                                else {
+                                    res.render('club', {
+                                        err: [{msg: 'Incorrect secret club password'}],
+                                    }) 
+                                }
+                            });
+                        })
+                }
+            }
+
+]
 
 // Admin POST
-exports.adminPOST = (req, res) => {
-    res.send('Changing status to admin...');
-}
+exports.adminPOST = [
+
+        // Validate and sanitize password.
+        body("password", "Password must not be empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+    
+        // Process request after validation and sanitization
+        (req, res, next) => {
+    
+            // Extract validation errors
+            const errors = validationResult(req);
+    
+            // There are errors. Render form again.
+            if (!errors.isEmpty()) {
+                res.render('login', {
+                    err: errors,
+                })
+            } 
+            
+            // No errors
+            else {
+                
+                // Check database for password
+                admin.find({})
+                    .exec((err, result) => {
+                        if (err) return next(err);
+                        
+                        // Compare inputted password to the stored hashed password
+                        bcrypt.compare(req.body.password, result.hash, function(err, result) {
+
+                            // If the password matches, make the user an admin
+                            if (result) {
+                                // TODO - Make them an admin
+                            }
+
+                            // If the password doesnt match rerender form with error message
+                            else {
+                                res.render('admin', {
+                                    err: [{msg: 'Incorrect administrator password'}],
+                                }) 
+                            }
+                        });
+                    })
+            }
+        }
+]
