@@ -22,4 +22,9 @@ router.get('/create', function(req, res, next) {
 /* POST message create page. */
 router.post('/create', messageController.createPOST);
 
+/* GET message delete page. */
+router.get('/:id/delete', (req, res) => {
+  res.send(`Delete message ${req.params.id}`)
+})
+
 module.exports = router;
