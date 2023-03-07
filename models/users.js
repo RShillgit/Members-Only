@@ -12,15 +12,4 @@ const UserSchema = new Schema({
     messages: [{ type: Schema.Types.ObjectId, ref: "Message" }]
 })
 
-const mongoDBURL = process.env.db_url;
-const mongoDBOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-} 
-
-const connection = mongoose.createConnection(mongoDBURL, mongoDBOptions); 
-
-const User = connection.model('User', UserSchema);
-
-// Expose connection
-module.exports = connection;
+module.exports = mongoose.model("User", UserSchema); 

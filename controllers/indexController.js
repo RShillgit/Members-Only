@@ -5,12 +5,9 @@ const validatePassword = require('../utils/passwordUtils').validatePassword;
 // Password Security
 const bcrypt = require('bcrypt');
 
-const connection = require('../models/users');
-const users = connection.models.User;
+const users = require('../models/users'); 
 
 const messages = require('../models/messages');
-
-const async = require('async');
 
 // Login GET
 exports.loginGET = (req, res) => {

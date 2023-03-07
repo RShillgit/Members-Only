@@ -34,19 +34,5 @@ MessageSchema.methods.formatDate = (timestamp) => {
     return formattedDate;
 }
 
-MessageSchema.methods.authorName = (authors, message) => {
-
-    let authorName;
-
-    for (let i = 0; i < authors.length; i ++) {
-        if (authors[i]._id.toString() === message.author.toString()) {
-            console.log(authors[i])
-            authorName = `${authors[i].first_name} ${authors[i].last_name}`;
-        }
-    }
-    //console.log(authors)
-    return authorName;
-}
-
 // Export model
 module.exports = mongoose.model("Message", MessageSchema)
