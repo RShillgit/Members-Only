@@ -176,6 +176,21 @@ exports.signupPOST = [
     }
 ]
 
+// Club GET
+exports.clubGET = (req, res) => {
+
+    // If the user is authenticated AND a secret club member
+    if (req.isAuthenticated() && req.user.membership_status === true) {
+        res.render('authedClub');
+    } 
+    else if (req.isAuthenticated()) {
+        res.render('club');
+    }
+    else {
+        res.redirect('/')
+    }
+}
+
 // Club POST
 exports.clubPOST = [
 
@@ -193,7 +208,7 @@ exports.clubPOST = [
         
                 // There are errors. Render form again.
                 if (!errors.isEmpty()) {
-                    res.render('login', {
+                    res.render('club', {
                         err: errors,
                     })
                 } 
@@ -202,29 +217,36 @@ exports.clubPOST = [
                 else {
                     
                     // Check database for password
-                    secret.find({})
+                    secret.findOne({})
                         .exec((err, result) => {
                             if (err) return next(err);
-                            
-                            // Compare inputted password to the stored hashed password
-                            bcrypt.compare(req.body.password, result.hash, function(err, result) {
-    
-                                // If the password matches, join secret club
-                                if (result) {
-                                    // TODO - Authorize them to join secret club
-                                }
-    
-                                // If the password doesnt match rerender form with error message
-                                else {
-                                    res.render('club', {
-                                        err: [{msg: 'Incorrect secret club password'}],
-                                    }) 
-                                }
-                            });
+
+                            // Check if password matches
+                            var clubVerify = bcrypt.hashSync(req.body.password, result.salt);
+
+                            // If it does...
+                            if (clubVerify === result.hash) {
+
+                                console.log(req.user)
+                                
+                                const filter = {_id: req.user._id};
+                                const options = {upsert: false};
+                                const updateDoc = {$set: {membership_status: true}};
+
+                                users.updateOne(filter, updateDoc, options)
+                                    .exec((err, result) => {
+                                        if (err) return err;
+
+                                        res.redirect('/club');
+                                    })  
+                            }
+                            // If it doesn't...
+                            else res.render('club', {
+                                err: [{msg: 'Incorrect secret club password'}]
+                            })
                         })
                 }
             }
-
 ]
 
 // Admin POST
@@ -244,7 +266,7 @@ exports.adminPOST = [
     
             // There are errors. Render form again.
             if (!errors.isEmpty()) {
-                res.render('login', {
+                res.render('admin', {
                     err: errors,
                 })
             } 

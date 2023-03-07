@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const SecretSchema = new Schema({
     hash: {type: String, required: true},
+    salt : {type: String, required: true}
 })
 
 // Export model

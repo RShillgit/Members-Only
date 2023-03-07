@@ -27,13 +27,7 @@ router.post('/sign-up', indexController.signupPOST);
 router.get('/home', messageController.homeGET);
 
 /* GET club page */
-router.get('/club', (req, res, next) => {
-  if (req.isAuthenticated()) {
-    res.render('club');
-  } else {
-    res.redirect('/')
-  }
-});
+router.get('/club', indexController.clubGET);
 
 /* POST club page */
 router.post('/club', indexController.clubPOST);

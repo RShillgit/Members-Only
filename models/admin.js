@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const AdminSchema = new Schema({
     hash: {type: String, required: true},
+    salt : {type: String, required: true}
 })
 
 // Export model
