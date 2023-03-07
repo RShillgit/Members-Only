@@ -161,6 +161,7 @@ exports.signupPOST = [
                             hash: hash,
                             salt: salt,
                             membership_status: false,
+                            administrator_status: false,
                         })
                         newUser.save((err, result) => {
                             if (err) {
@@ -183,6 +184,7 @@ exports.clubGET = (req, res) => {
     if (req.isAuthenticated() && req.user.membership_status === true) {
         res.render('authedClub');
     } 
+    // If the user is just authenticated
     else if (req.isAuthenticated()) {
         res.render('club');
     }
@@ -249,6 +251,22 @@ exports.clubPOST = [
             }
 ]
 
+// Admin GET
+exports.adminGET = (req, res) => {
+
+    // If the user is authenticated AND an admin
+    if (req.isAuthenticated() && req.user.administrator_status === true) {
+        res.render('authedAdmin');
+    } 
+    // If the user is just authenticated
+    else if (req.isAuthenticated()) {
+        res.render('admin');
+    }
+    else {
+        res.redirect('/')
+    }
+}
+
 // Admin POST
 exports.adminPOST = [
 
@@ -270,30 +288,38 @@ exports.adminPOST = [
                     err: errors,
                 })
             } 
-            
             // No errors
             else {
                 
                 // Check database for password
-                admin.find({})
+                admin.findOne({})
                     .exec((err, result) => {
                         if (err) return next(err);
                         
-                        // Compare inputted password to the stored hashed password
-                        bcrypt.compare(req.body.password, result.hash, function(err, result) {
+                        // Check if password matches
+                        var adminVerify = bcrypt.hashSync(req.body.password, result.salt);
 
-                            // If the password matches, make the user an admin
-                            if (result) {
-                                // TODO - Make them an admin
-                            }
+                        // If it does...
+                        if (adminVerify === result.hash) {
 
-                            // If the password doesnt match rerender form with error message
-                            else {
-                                res.render('admin', {
-                                    err: [{msg: 'Incorrect administrator password'}],
-                                }) 
-                            }
-                        });
+                            console.log(req.user)
+                            
+                            const filter = {_id: req.user._id};
+                            const options = {upsert: false};
+                            const updateDoc = {$set: {administrator_status: true}};
+
+                            users.updateOne(filter, updateDoc, options)
+                                .exec((err, result) => {
+                                    if (err) return err;
+
+                                    res.redirect('/admin');
+                                })  
+                        }
+                        // If it doesn't...
+                        else res.render('admin', {
+                            err: [{msg: 'Incorrect admin password'}]
+                        })
+
                     })
             }
         }

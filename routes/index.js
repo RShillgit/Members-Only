@@ -33,13 +33,7 @@ router.get('/club', indexController.clubGET);
 router.post('/club', indexController.clubPOST);
 
 /* GET admin page */
-router.get('/admin', (req, res, next) => {
-  if (req.isAuthenticated()) {
-    res.render('admin');
-  } else {
-    res.redirect('/')
-  }
-});
+router.get('/admin', indexController.adminGET);
 
 /* POST admin page */
 router.post('/admin', indexController.adminPOST);

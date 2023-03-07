@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     hash: {type: String},
     salt: {type: String},
     membership_status: {type: Boolean, required: true},
+    administrator_status: {type: Boolean, required: true},
     messages: [{ type: Schema.Types.ObjectId, ref: "Message" }]
 })
 
