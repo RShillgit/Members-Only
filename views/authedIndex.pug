@@ -29,8 +29,10 @@ block content
                     div(class='adminOptions')
                         a(href=`/message/${message._id}/delete`)
                             button X
-                p #{message.author.first_name} #{message.author.last_name}
-                p=message.title
-                p=message.text
-                p= message.formatDate(message.timestamp)
+                div(class='messageInfo')
+                    p #{message.author.first_name} #{message.author.last_name}
+                    p=message.title
+                    p=message.text
+                div(class='messageDate')
+                    p= message.formatDate(message.timestamp)
     

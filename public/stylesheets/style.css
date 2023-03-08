@@ -1,6 +1,28 @@
+@font-face {
+  font-family: Yantramanav;
+  src: url('../fonts/Yantramanav/Yantramanav-Regular.ttf');
+}
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Yantramanav;
+  color: #147efb;
+  background-color: #FAF9F6;
+}
+button {
+  font-family: Yantramanav;
+  background-color: #147efb;
+  font-weight: 600;
+  border: 2px solid #147efb;
+  border-radius: 1rem;
+  padding: 8px;
+  color: white;
+}
+button:hover {
+  cursor: pointer;
+}
+button:active {
+  border: 2px solid white;
 }
 
 .page-header {
@@ -60,13 +82,29 @@ form input {
 /* Logged in Home Page */
 .messagesContainer {
   display: flex;
+  border-radius: 1rem;
   flex-direction: column;
   align-items: center;
-  border: 1px solid red;
+  border: 1px solid black;
+  background-color: black;
 }
 .individualMessage {
   margin: 1rem;
-  border: 1px solid blue;
-  border-radius: 1rem;
-  padding: 1rem 5rem 1rem 5rem;
 }
+.individualMessage .adminOptions {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 0.5rem;
+}
+.individualMessage .messageInfo {
+  background-color: #147efb;
+  color: white;
+  border-radius: 1rem;
+  padding: 1rem 3rem 1rem 3rem;
+}
+.individualMessage .messageDate {
+  display: flex;
+  justify-content: end;
+  color: #8e8e93;
+}
+
