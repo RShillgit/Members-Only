@@ -5,9 +5,13 @@ block content
         h1 Administrator 
 
     form(method='POST' action='' id='admin-form')
-        label Secret Password 
+        label Admin Password 
             input(type='password' name='password' required='true')
-        button Become Admin
+
+    div(class='nav')
+        a(href='/home')
+            button Cancel
+        button(type='submit' form='admin-form') Become Admin
 
     if err
         div(class='error-message-div')

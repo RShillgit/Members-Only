@@ -8,10 +8,15 @@ block content
         p Hint: The password is "notsecret"
         label Secret Password 
             input(type='password' name='password' required='true')
-        button Join Club
+        
+    div(class='nav')
+        a(href='/home')
+            button Cancel
+        button(type='submit' form='club-form') Join Club
 
     if err
         div(class='error-message-div')
             ul
                 each e in err 
-                    li=e.msg  
+                    li=e.msg 
+                    
