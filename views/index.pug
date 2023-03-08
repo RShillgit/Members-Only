@@ -12,3 +12,11 @@ block content
     p New member?
       a(href='/sign-up') 
         button Sign Up
+
+  
+    form(action="/guest" method='POST')
+      div(class='guest-login-info')
+        input(type='text' name='username' required='true' value='guest')
+        input(type="password" name='password' required='true' value='guest')
+      a(href='/guest') 
+        button(name='guestButton' value='guest') Login as Guest

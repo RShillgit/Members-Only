@@ -45,6 +45,11 @@ form input {
   font-weight: 600;
 }
 
+/* Home Page */
+.guest-login-info {
+  display: none;
+}
+
 /* Navigation */
 .nav {
   padding: 1rem;
