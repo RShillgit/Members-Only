@@ -60,3 +60,19 @@ exports.createPOST = (req, res) => {
         return res.redirect('/home');
     })
 }
+
+exports.deleteGET = (req, res) => {
+
+    if (req.isAuthenticated() && req.user.administrator_status === true) {
+
+        // Find the selected message
+        messages.deleteOne({_id: req.params.id})
+            .exec((err, result) => {
+                if (err) return err
+
+                res.redirect('/home');
+            })
+    }
+    else res.redirect('/admin');
+    
+}
