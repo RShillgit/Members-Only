@@ -22,7 +22,7 @@ button {
 button:hover {
   cursor: pointer;
 }
-button:active {
+button:active, .container #signUpBtn:active, .container #guestLoginBtn:active, .nav #clubBtn:active, .nav #adminBtn:active, .nav #messageBtn:active, .nav #logoutBtn:active {
   border: 2px solid white;
 }
 .page-header {
@@ -174,6 +174,9 @@ form input {
   width: -moz-available;          /* WebKit-based browsers will ignore this. */
   width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
   width: fill-available;
+}
+.admin-error-message .error-message-div ul {
+  margin-bottom: 0;
 }
 
 /* Create Message */
