@@ -7,7 +7,14 @@ const messageController = require('../controllers/messageController');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Members Only'});
+
+  // Random string
+  let randomString = Math.random().toString(36).substring(2,12);
+
+  res.render('index', {
+    title: 'Members Only',
+    randomString: randomString,
+  });
 });
 
 /* GET login page. */
@@ -48,5 +55,10 @@ router.get('/logout', (req, res, next) => {
 
 /* POST Guest login */
 router.post('/guest', passport.authenticate('local', {failureRedirect: '/', successRedirect: '/home'}));
+
+router.post('/guestt', (req, res, next) => {
+    indexController.guestPOST;
+    passport.authenticate('local', {failureRedirect: '/', successRedirect: '/home'});
+})
 
 module.exports = router;

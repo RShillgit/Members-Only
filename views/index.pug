@@ -1,6 +1,7 @@
 extends layout
 
 block content
+
   div(class='page-header')
     h1= title
   
@@ -24,3 +25,21 @@ block content
           input(type="password" name='password' required='true' value='guest')
         a(href='/guest') 
           button#guestLoginBtn(name='guestButton' value='guest') Login as Guest
+
+
+    div(class='guestPromptt')
+      p Attempting to create a better guest login
+      form(action="/guestt" method='POST')
+        div(class='guest-login-infoo')
+          input(type='text' name='username' required='true' value=randomString)
+          input(type="password" name='password' required='true' value=randomString)
+        a(href='/guestt') 
+          button Login as Guest Test
+
+      //
+        form(method='POST' action='/sign-up' id='guest-sign-up')
+          input(type='text' name='username' required='true' id='guestUsername' value=randomUserInfo)
+          input(type="text" name='first_name' required='true' value='Guest')
+          input(type="text" name='last_name' required='true' value='User')
+          input(type="password" name='password' required='true' id='guestPassword' value=randomUserInfo)
+          input(type="password" name='password_confirmation' required='true' value=randomUserInfo)

@@ -2,6 +2,8 @@ const { body, validationResult, check } = require("express-validator");
 const genPassword = require('../utils/passwordUtils').genPassword;
 const validatePassword = require('../utils/passwordUtils').validatePassword;
 
+const passport = require('passport');
+
 // Password Security
 const bcrypt = require('bcrypt');
 
@@ -228,8 +230,6 @@ exports.clubPOST = [
 
                             // If it does...
                             if (clubVerify === result.hash) {
-
-                                console.log(req.user)
                                 
                                 const filter = {_id: req.user._id};
                                 const options = {upsert: false};
@@ -301,8 +301,6 @@ exports.adminPOST = [
 
                         // If it does...
                         if (adminVerify === result.hash) {
-
-                            console.log(req.user)
                             
                             const filter = {_id: req.user._id};
                             const options = {upsert: false};
@@ -324,3 +322,32 @@ exports.adminPOST = [
             }
         }
 ]
+
+// Guest POST 
+exports.guestPOST = (req, res) => {
+
+    // create account with Hash and salt from util function
+    const saltHash = genPassword(req.body.password);
+
+    const salt = saltHash.salt;
+    const hash = saltHash.hash;
+
+    // Create user with salt and hash
+    const newUser = new users({
+        first_name: 'Guest',
+        last_name: 'User',
+        username: req.body.pasword,
+        hash: hash,
+        salt: salt,
+        membership_status: false,
+        administrator_status: false,
+    })
+    newUser.save((err, result) => {
+        if (err) {
+            return next(err);
+        }
+    }) 
+
+    // TODO SOMEHOW AUTHENTICATE AFTER CREATING USER
+}   
+    

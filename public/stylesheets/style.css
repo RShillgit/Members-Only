@@ -5,6 +5,7 @@
 
 /* Group Styles */
 body {
+  font-size: large;
   padding: 50px;
   font-family: Yantramanav;
   color: #147efb;
@@ -148,6 +149,7 @@ form input {
 .individualMessage .messageInfo #text {
   display: flex;
   justify-content: center;
+  overflow-wrap: anywhere;
 }
 .individualMessage .messageInfo #author {
   display: flex;
@@ -166,6 +168,15 @@ form input {
 /* Club */
 .clubGif {
   margin-bottom: 1rem;
+  overflow: auto;
+}
+.welcomeToClubVideo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  width: -moz-available;          /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
 }
 
 /* Admin */
