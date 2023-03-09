@@ -28,7 +28,7 @@ block content
                 if admin 
                     div(class='adminOptions')
                         a(href=`/message/${message._id}/delete`)
-                            button X
+                            img(src='/images/remove.png' alt='remove')
                 div(class='messageInfo')
                     p#title=message.title
                     p#text=message.text

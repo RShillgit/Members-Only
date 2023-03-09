@@ -4,23 +4,22 @@ block content
   div(class='page-header')
     h1= title
 
-  div(class='loginPage')
-    div(class='container') 
+  div(class='container') 
 
-      form(method='POST' action='' id='login-form')
-        label Username 
-          input(type='text' name='username' required='true')
-        labl Password 
-          input(type="password" name='password' required='true')
+    form(method='POST' action='' id='login-form')
+      label Username 
+        input(type='text' name='username' required='true')
+      labl Password 
+        input(type="password" name='password' required='true')
 
-      div(class='form-buttons')
-        a(href='/')
-          button Cancel 
-        
-        button(type='submit' form='login-form') Login
+    div(class='form-buttons')
+      a(href='/')
+        button Cancel 
       
-      if err
-        div(class='error-message-div')
-          ul
-            each e in err 
-              li=e.msg  
+      button(type='submit' form='login-form') Login
+    
+    if err
+      div(class='error-message-div')
+        ul
+          each e in err 
+            li=e.msg  

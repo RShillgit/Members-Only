@@ -3,6 +3,7 @@
   src: url('../fonts/Yantramanav/Yantramanav-Regular.ttf');
 }
 
+/* Group Styles */
 body {
   padding: 50px;
   font-family: Yantramanav;
@@ -28,8 +29,6 @@ button:active {
   display: flex;
   justify-content: center;
 }
-
-/* Group */
 .container {
   display: flex;
   border-radius: 1rem;
@@ -38,9 +37,28 @@ button:active {
   background-color: black;
   box-shadow: -10px 5px 0px #8e8e93;
   color: white;
-}
-.loginPage .container, .signUpPage .container, .clubPage .container, .adminPage .container, .createMessagePage .container {
   padding: 1rem;
+}
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form input {
+  margin: 0.5rem;
+}
+.error-message-div {
+  display: flex;
+  justify-content: center;
+}
+.error-message-div ul {
+  color: #fc3d39;
+  font-weight: 600;
 }
 
 /* Homepage */
@@ -65,36 +83,6 @@ button:active {
   background-color: #fd9426;
   border: 2px solid #fd9426;
 }
-
-/* Login Page */
-
-
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-form input {
-  margin: 0.5rem;
-}
-
-.error-message-div {
-  display: flex;
-  justify-content: center;
-}
-.error-message-div ul {
-  color: #fc3d39;
-  font-weight: 600;
-}
-.success-message-div {
-  display: flex;
-  justify-content: center;
-  color: green;
-  font-weight: 600;
-}
-
-/* Home Page */
 .guest-login-info {
   display: none;
 }
@@ -124,13 +112,6 @@ form input {
 .nav #logoutBtn {
   background-color: #fc3d39;
   border: 2px solid #fc3d39;
-}
-
-/* Form Buttons */
-.form-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
 }
 
 /* Logged in Home Page */
@@ -182,3 +163,25 @@ form input {
   margin-bottom: 0;
 }
 
+/* Club */
+.clubGif {
+  margin-bottom: 1rem;
+}
+
+/* Admin */
+.adminDemoVideo {
+  width: 100%;
+  width: -moz-available;          /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+}
+
+/* Create Message */
+#create-message-form label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#create-message-form-buttons {
+  margin-top: 1rem;
+}

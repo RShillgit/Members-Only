@@ -4,17 +4,15 @@ block content
     div(class='page-header')
         h1= title
 
-
-    div(class='createMessagePage')
-        div(class='container')
-            form(method='POST' action='' id='create-message-form')
-                label Title 
-                    input(type='text' name='title' required='true')
-                label Message
-                    textarea(name="text", cols="50", rows="8" required='true')
+    div(class='container')
+        form(method='POST' action='' id='create-message-form')
+            label Title 
+                input(type='text' name='title' required='true')
+            label Message
+                textarea(name="text", cols="40", rows="5" required='true')
+        
+        div(class='form-buttons' id='create-message-form-buttons')
+            a(href='/home')
+                button Cancel 
             
-            div(class='form-buttons')
-                a(href='/home')
-                    button Cancel 
-                
-                button(type='submit' form='create-message-form') Create message
+            button(type='submit' form='create-message-form') Create message

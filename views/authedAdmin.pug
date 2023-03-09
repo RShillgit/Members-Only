@@ -4,14 +4,14 @@ block content
     div(class='page-header')
         h1 Admin
 
-    div(class='nav')
+    div(class='container')
         a(href='/home')
             button Home
 
-    h1 You are now an admin
+        h1 You are now an admin
 
-    if err
-        div(class='error-message-div')
-            ul
-                each e in err 
-                    li=e.msg  
+        if err
+            div(class='error-message-div')
+                ul
+                    each e in err 
+                        li=e.msg  
