@@ -17,7 +17,7 @@ exports.homeGET = (req, res) => {
 
             // Render home page with messages
             res.render('authedIndex', {
-                title: 'Logged in Home Page',
+                title: `Logged in as ${req.user.first_name} ${req.user.last_name}`,
                 messages: results,
                 admin: req.user.administrator_status,
                 membership: req.user.membership_status,

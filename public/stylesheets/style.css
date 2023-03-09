@@ -24,17 +24,51 @@ button:hover {
 button:active {
   border: 2px solid white;
 }
-
 .page-header {
   display: flex;
   justify-content: center;
 }
 
-.homepage-container {
+/* Group */
+.container {
+  display: flex;
+  border-radius: 1rem;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  box-shadow: -10px 5px 0px #8e8e93;
+  color: white;
+}
+.loginPage .container, .signUpPage .container, .clubPage .container, .adminPage .container, .createMessagePage .container {
+  padding: 1rem;
+}
+
+/* Homepage */
+.container .loginPrompt, .container .signUpPrompt, .container .guestPrompt {
+  margin: 1rem;
   display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
 }
+.container .loginPrompt {
+  margin-top: 2rem;
+}
+.container .guestPrompt {
+  margin-bottom: 2rem;
+}
+.container #signUpBtn {
+  background-color: #fc3158;
+  border: 2px solid #fc3158;
+}
+.container #guestLoginBtn {
+  background-color: #fd9426;
+  border: 2px solid #fd9426;
+}
+
+/* Login Page */
+
+
 
 form {
   display: flex;
@@ -45,19 +79,12 @@ form input {
   margin: 0.5rem;
 }
 
-.formButtons {
-  display: flex;
-  justify-content: center;
-  margin: 1rem;
-  gap: 1rem;
-}
-
 .error-message-div {
   display: flex;
   justify-content: center;
 }
 .error-message-div ul {
-  color: red;
+  color: #fc3d39;
   font-weight: 600;
 }
 .success-message-div {
@@ -74,19 +101,47 @@ form input {
 
 /* Navigation */
 .nav {
+  background-color: black;
   padding: 1rem;
+  padding-top: 2rem;
+  border-radius: 1rem 1rem 0 0;
   display: flex;
   justify-content: space-evenly;
+  box-shadow: -10px 10px 0 #8e8e93;
+}
+.nav #clubBtn {
+  background-color: #53d769;
+  border: 2px solid #53d769;
+}
+.nav #adminBtn {
+  background-color: #fd9426;
+  border: 2px solid #fd9426;
+}
+.nav #messageBtn {
+  background-color: #fc3158;
+  border: 2px solid #fc3158;
+}
+.nav #logoutBtn {
+  background-color: #fc3d39;
+  border: 2px solid #fc3d39;
+}
+
+/* Form Buttons */
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 /* Logged in Home Page */
 .messagesContainer {
   display: flex;
-  border-radius: 1rem;
+  border-radius: 0 0 1rem 1rem;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
   background-color: black;
+  box-shadow: -10px 5px 0px #8e8e93;
+  padding-bottom: 1rem;
 }
 .individualMessage {
   margin: 1rem;
@@ -97,14 +152,33 @@ form input {
   margin-bottom: 0.5rem;
 }
 .individualMessage .messageInfo {
+  display: flex;
+  flex-direction: column;
   background-color: #147efb;
   color: white;
   border-radius: 1rem;
   padding: 1rem 3rem 1rem 3rem;
 }
+.individualMessage .messageInfo #title {
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+}
+.individualMessage .messageInfo #text {
+  display: flex;
+  justify-content: center;
+}
+.individualMessage .messageInfo #author {
+  display: flex;
+  justify-content: end;
+}
 .individualMessage .messageDate {
   display: flex;
   justify-content: end;
   color: #8e8e93;
+}
+.individualMessage .messageDate p {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
 }
 

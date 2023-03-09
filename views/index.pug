@@ -4,19 +4,23 @@ block content
   div(class='page-header')
     h1= title
   
-  div(class='homepage-container')
-    p Have an account?
+  div(class='container')
+    div(class='loginPrompt')
+      p Have an account?
       a(href='/login') 
         button Login 
-    
-    p New member?
+
+    div(class='signUpPrompt')
+      p New member?
       a(href='/sign-up') 
-        button Sign Up
+        button#signUpBtn Sign Up
 
   
-    form(action="/guest" method='POST')
-      div(class='guest-login-info')
-        input(type='text' name='username' required='true' value='guest')
-        input(type="password" name='password' required='true' value='guest')
-      a(href='/guest') 
-        button(name='guestButton' value='guest') Login as Guest
+    div(class='guestPrompt')
+      p Too lazy?
+      form(action="/guest" method='POST')
+        div(class='guest-login-info')
+          input(type='text' name='username' required='true' value='guest')
+          input(type="password" name='password' required='true' value='guest')
+        a(href='/guest') 
+          button#guestLoginBtn(name='guestButton' value='guest') Login as Guest

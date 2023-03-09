@@ -4,17 +4,19 @@ block content
     div(class='page-header')
         h1 Administrator 
 
-    form(method='POST' action='' id='admin-form')
-        label Admin Password 
-            input(type='password' name='password' required='true')
+    div(class='adminPage')
+        div(class='container')
+            form(method='POST' action='' id='admin-form')
+                label Admin Password 
+                    input(type='password' name='password' required='true')
 
-    div(class='nav')
-        a(href='/home')
-            button Cancel
-        button(type='submit' form='admin-form') Become Admin
+            div(class='form-buttons')
+                a(href='/home')
+                    button Cancel
+                button(type='submit' form='admin-form') Become Admin
 
-    if err
-        div(class='error-message-div')
-            ul
-                each e in err 
-                    li=e.msg  
+            if err
+                div(class='error-message-div')
+                    ul
+                        each e in err 
+                            li=e.msg  

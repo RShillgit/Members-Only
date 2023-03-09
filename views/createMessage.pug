@@ -5,14 +5,16 @@ block content
         h1= title
 
 
-    form(method='POST' action='' id='create-message-form')
-        label Title 
-            input(type='text' name='title' required='true')
-        label Message
-            textarea(name="text", cols="50", rows="8" required='true')
-    
-    div(class='formButtons')
-        a(href='/home')
-            button Cancel 
-        
-        button(type='submit' form='create-message-form') Create message
+    div(class='createMessagePage')
+        div(class='container')
+            form(method='POST' action='' id='create-message-form')
+                label Title 
+                    input(type='text' name='title' required='true')
+                label Message
+                    textarea(name="text", cols="50", rows="8" required='true')
+            
+            div(class='form-buttons')
+                a(href='/home')
+                    button Cancel 
+                
+                button(type='submit' form='create-message-form') Create message

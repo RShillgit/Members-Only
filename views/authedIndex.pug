@@ -8,18 +8,18 @@ block content
 
         a(href='/club')
             if !membership
-                button Join Secret Club 
+                button#clubBtn Join Secret Club 
             if membership   
-                button Secret Club
+                button#clubBtn Secret Club
         
         if !admin
             a(href='/admin')
-                button Become Admin
+                button#adminBtn Become Admin
     
         a(href='/message/create')
-            button Create Message
+            button#messageBtn Create Message
         a(href='/logout') 
-            button Logout
+            button#logoutBtn Logout
 
     if messages 
     div(class='messagesContainer')
@@ -30,9 +30,9 @@ block content
                         a(href=`/message/${message._id}/delete`)
                             button X
                 div(class='messageInfo')
-                    p #{message.author.first_name} #{message.author.last_name}
-                    p=message.title
-                    p=message.text
+                    p#title=message.title
+                    p#text=message.text
+                    p#author - #{message.author.first_name} #{message.author.last_name}
                 div(class='messageDate')
                     p= message.formatDate(message.timestamp)
     
