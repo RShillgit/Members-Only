@@ -12,6 +12,7 @@ body {
   background-color: #FAF9F6;
 }
 button {
+  font-size: medium;
   font-family: Yantramanav;
   background-color: #147efb;
   font-weight: 600;
@@ -29,6 +30,7 @@ button:active, .container #signUpBtn:active, .container #guestLoginBtn:active, .
 .page-header {
   display: flex;
   justify-content: center;
+  min-width: 150px;
 }
 .container {
   display: flex;
@@ -198,4 +200,58 @@ form input {
 }
 #create-message-form-buttons {
   margin-top: 1rem;
+}
+
+@media (max-width: 550px) {
+  #create-message-form {
+    width: 100%;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+  }
+  #create-message-form label, #create-message-form label input {
+    width: 90%;
+  }
+}
+@media (max-width: 425px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+    min-width: 118px;
+    padding-top: 1rem;
+  }
+  .nav a {
+    margin-top: 1rem;
+  }
+  .messagesContainer {
+    min-width: 150px;
+  }
+  .individualMessage {
+    margin: 5px;
+    min-width: 70px;
+  }
+  .individualMessage .messageInfo {
+    padding: 5%;
+  }
+}
+@media (max-width: 350px) {
+  form label, form label input {
+    width: 90%;
+    margin: 0;
+  }
+}
+@media (max-width: 300px) {
+  .loginPrompt, .signUpPrompt, .guestPrompt {
+    flex-direction: column;
+  }
+  .loginPrompt p, .signUpPrompt p, .guestPrompt p {
+    margin-bottom: 0;
+  }
+  .container {
+    min-width: 150px;
+  }
+  .form-buttons {
+    margin-top: 1rem;
+    gap: 5px;
+  }
 }
