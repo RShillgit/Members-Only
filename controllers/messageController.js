@@ -11,6 +11,7 @@ exports.homeGET = (req, res) => {
       
         // Get all messages
         messages.find({})
+            .sort({'timestamp': -1})
             .populate('author')
             .exec((err, results) => {
                 if (err) return next(err);
