@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var favicon = require('serve-favicon');
 require('dotenv').config()
 
 var indexRouter = require('./routes/index');
 const messageRouter = require('./routes/message');
 
 var app = express();
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 
 // Set up mongoose connection
 mongoose.set('strictQuery', false); 
