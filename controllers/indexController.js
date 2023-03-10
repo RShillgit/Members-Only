@@ -324,8 +324,8 @@ exports.adminPOST = [
 ]
 
 // Guest POST 
-exports.guestPOST = (req, res) => {
-
+exports.guestPOST = async (req, res, next) => {
+    
     // create account with Hash and salt from util function
     const saltHash = genPassword(req.body.password);
 
@@ -336,7 +336,7 @@ exports.guestPOST = (req, res) => {
     const newUser = new users({
         first_name: 'Guest',
         last_name: 'User',
-        username: req.body.pasword,
+        username: req.body.username,
         hash: hash,
         salt: salt,
         membership_status: false,
@@ -344,10 +344,10 @@ exports.guestPOST = (req, res) => {
     })
     newUser.save((err, result) => {
         if (err) {
-            return next(err);
+            return console.log(err);
         }
+        // Go to authenticate function
+        return next();
     }) 
-
-    // TODO SOMEHOW AUTHENTICATE AFTER CREATING USER
 }   
     

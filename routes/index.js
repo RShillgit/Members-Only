@@ -54,11 +54,6 @@ router.get('/logout', (req, res, next) => {
 })
 
 /* POST Guest login */
-router.post('/guest', passport.authenticate('local', {failureRedirect: '/', successRedirect: '/home'}));
-
-router.post('/guestt', (req, res, next) => {
-    indexController.guestPOST;
-    passport.authenticate('local', {failureRedirect: '/', successRedirect: '/home'});
-})
+router.post('/guest', indexController.guestPOST, passport.authenticate('local', {failureRedirect: '/', successRedirect: '/home'}));
 
 module.exports = router;
