@@ -9,7 +9,13 @@ body {
   padding: 50px;
   font-family: Yantramanav;
   color: #147efb;
+
   background-color: #FAF9F6;
+  opacity: 1;
+  background-image:  radial-gradient(#147efb 2px, transparent 2px), radial-gradient(#147efb 2px, #FAF9F6 2px);
+  background-size: 80px 80px;
+  background-position: 0 0,40px 40px;
+
 }
 button {
   font-size: medium;
@@ -255,3 +261,4 @@ form input {
     gap: 5px;
   }
 }
+
