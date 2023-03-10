@@ -344,7 +344,7 @@ exports.guestPOST = async (req, res, next) => {
     })
     newUser.save((err, result) => {
         if (err) {
-            return console.log(err);
+            return err;
         }
         // Go to authenticate function
         return next();
