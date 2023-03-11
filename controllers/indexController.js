@@ -1,14 +1,10 @@
 const { body, validationResult, check } = require("express-validator");
 const genPassword = require('../utils/passwordUtils').genPassword;
-const validatePassword = require('../utils/passwordUtils').validatePassword;
-
-const passport = require('passport');
 
 // Password Security
 const bcrypt = require('bcrypt');
 
 const users = require('../models/users'); 
-const messages = require('../models/messages');
 const secret = require('../models/secret');
 const admin = require('../models/admin');
 
@@ -16,76 +12,6 @@ const admin = require('../models/admin');
 exports.loginGET = (req, res) => {
     res.render('login', { title: 'Login'});
 }
-
-// Login POST -> Can be deleted
-exports.loginPOST = [
-
-    // Validate and sanitize fields.
-    body("username", "Username must not be empty.")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
-    body("password", "Password must not be empty.")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
-
-    // Process request after validation and sanitization
-    (req, res, next) => {
-
-        // Extract validation errors
-        const errors = validationResult(req);
-
-        // There are errors. Render form again.
-        if (!errors.isEmpty()) {
-            res.render('login', {
-                err: errors,
-            })
-        } 
-        
-        // No errors
-        else {
-            
-            // Check database for username and password
-            users.findOne({username: req.body.username})
-                .exec((err, result) => {
-                    if (err) return next(err);
-
-                    // If the username DOESN'T exist render login form with error message
-                    if (!result) {
-                        res.render('login', {
-                            err: [{msg: 'An account with this username does not exist'}],
-                        })
-                    }
-                    
-                    // If the username DOES exists
-                    else {
-
-                        // Compare inputted password to the stored hashed password
-                        bcrypt.compare(req.body.password, result.hash, function(err, result) {
-
-                            // If the password matches, log the user in
-                            if (result) {
-
-                                // Render logged in home page
-                                res.redirect('/home');
-                            }
-
-                            // If the password doesnt match rerender form with error message
-                            else {
-                                res.render('login', {
-                                    err: [{msg: 'This username/password combination is incorrect'}],
-                                })
-                                
-                            }
-                        });
-                    }
-
-
-                })
-        }
-    }
-]
 
 // Sign up GET
 exports.signupGET = (req, res) => {

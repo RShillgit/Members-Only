@@ -1,5 +1,3 @@
-const { body, validationResult, check } = require("express-validator");
-
 const users = require('../models/users'); 
 
 const messages = require('../models/messages');
